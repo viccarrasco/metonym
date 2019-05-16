@@ -7,11 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "metonym"
   spec.version       = Metonym::VERSION
   spec.authors       = ["Vic Carrasco"]
-  spec.email         = ["carrasco.vic@gmail.com"]
-
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.email         = ["vic@viccarrasco.com"]
+  spec.summary       = "The unofficial Google News API gem"
+  spec.description   = "Query news from Google News' sources"
+  spec.homepage      = "https://github.com/viccarrasco/metonym"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
