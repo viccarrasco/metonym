@@ -8,7 +8,6 @@ Gem::Specification.new do |spec|
   spec.version       = Metonym::VERSION
   spec.authors       = ["Vic Carrasco"]
   spec.email         = ["vic@viccarrasco.com"]
-
   spec.summary       = "The unofficial Google News API gem"
   spec.description   = "Query news from Google News' sources"
   spec.homepage      = "https://github.com/viccarrasco/metonym"
@@ -39,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "byebug"
 end
