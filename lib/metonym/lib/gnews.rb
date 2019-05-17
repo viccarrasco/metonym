@@ -25,7 +25,7 @@ module Gnews
             rescue Exception => e
                 response = {"errors" => e.to_s}
             ensure
-                if response.is_a?(Hash) && response.has_key?('error')
+                if response.is_a?(Hash) && response.has_key?('errors')
                     return response
                 else
                     if format.nil? || format == 'json'
