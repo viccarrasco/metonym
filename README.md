@@ -55,6 +55,39 @@ puts response
 }
 ```
 
+You can also send a second parmeter to the search method to indicate that the response be parsed to a ruby hash for easier manipulation. By default, the request will respond with a JSON.
+
+```ruby
+# Establish parameters for query
+args = { "q" => "Game of Thrones", "country" => "DE", 'max' => 1 }
+
+# Send Request with HASH response property
+gnews = Gnews::Query.new('my-secret-key', 'hash') 
+response = gnews.search(args)
+
+puts response
+# =>
+
+{
+   "timestamp"=>1558094332, 
+   "count_results"=>1, 
+   "articles"=>[
+      {
+         "title"=>"'Game of Thrones' finale: How will it end? Here are a few theories", 
+         "desc"=>"", "link"=>"https://www.goodmorningamerica.com/culture/story/game-thrones-finale-popular-theories-end-63057785", 
+         "website"=>"https://www.goodmorningamerica.com", 
+         "source"=>"GMA", 
+         "date"=>"Fri, 17 May 2019 08:06:11 GMT", 
+         "image"=>"https://lh4.googleusercontent.com/proxy/KI8XVNS35Y9hvR55LjjCwpjB4zTUcQxQb5N3H41bc4JRvdcz5qZCIDG2bFHyO6WxqhdVQ5qc5TxPsoqaObiZsY9sqjZRvrsQ7qEdLewSS272opiVWH5S
+MydvTAug0D-dSSDfZDG9oywTEcfQXsWXtzBHULFJzLYwJDjmnxza=-c"
+      }
+   ]
+}
+
+
+
+```
+
 ## Search Parameters
 | Parameter 	| Info   	                                | Description
 |---	        |---	                                    |---
