@@ -7,7 +7,7 @@ module Gnews
         def initialize(key, version = nil)
             @gnews_api_key = key
             @gnews_version = version.nil? ? 'v2' : version
-            @uri = URI('https://gnews.io/api/v2/')
+            @uri = URI("https://gnews.io/api/#{@gnews_version}/")
         end
 
         def search(args, format = 'json')
