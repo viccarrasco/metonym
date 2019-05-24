@@ -183,7 +183,6 @@ response = news.everything(args)
          "publishedAt":"2019-05-23T06:01:44Z",
          "content":"A San Jose-based semiconductor startup being sued by Huawei for stealing trade secrets has hit back in court documents, accusing the Chinese firms deputy chairman of conspiring to steal its intellectual property, reports the Wall Street Journal. In court fili… [+3077 chars]"
       }
-      ...
    ]
 }
 ```
@@ -238,7 +237,6 @@ response = news.sources(args)
          "language":"en",
          "country":"au"
       },
-      ...
    ]
 }
 
