@@ -34,6 +34,7 @@ module NewsApi
                 raise "Invalid country sent"       if v.is_country_valid?(args)  == false
                 raise "Invalid language sent"      if v.is_language_valid?(args) == false
                 raise "Invalid date or dates sent" if v.is_date_valid?(args)     == false
+                raise "Invalid format sent"        if v.is_format_valid?(format) == false
                 
                 args = prepare_arguments(args)
 

@@ -19,6 +19,16 @@ module Validate
                 ].include?(args['lang'].downcase)
             end
         end
+
+        def is_format_valid?(args)
+            template = %w(json hash)
+            
+            if args.nil?
+                true
+            else
+                template.include?(args.downcase)
+            end
+        end
     end
 
     class GnewsValidator < Validator
@@ -64,7 +74,8 @@ module Validate
     end
 
     class NewsApiValidator < Validator
-        COUNTRIES = %w(ar au at be br bg ca cn co cu cz eg fr de gr hk hu in id ie il it jp lv lt my mx ma nl nz ng no ph pl pt ro ru sa rs sg sk si za kr se ch tw th tr ae ua gb us ve)
+        COUNTRIES   = %w(ar au at be br bg ca cn co cu cz eg fr de gr hk hu in id ie il it jp lv lt my mx ma nl nz ng no ph pl pt ro ru sa rs sg sk si za kr se ch tw th tr ae ua gb us ve)
+        CATEGORIES  = %w(business entertainment general health science sports technology)
 
         def is_query_valid?(args, endpoint = 'top-headlines')
             case endpoint
@@ -77,6 +88,8 @@ module Validate
             end
 
             if (endpoint == 'top-headlines' && (args.include?('sources') && (args.include?('country') || args.include?('category'))))
+                false
+            elsif (endpoint == "sources") && (args.has_key?("category")) && (CATEGORIES.include?(args["category"]) == false)
                 false
             else
                 (args.keys - template).empty?

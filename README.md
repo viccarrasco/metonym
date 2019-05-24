@@ -1,6 +1,6 @@
 # Metonym
 
-A ruby gem for [GNews API](https://gnews.io)
+A ruby gem for [GNews API](https://gnews.io) and [NewsApi](https://newsapi.org/)
 
 
 ## Installation
@@ -23,7 +23,9 @@ Or install it yourself as:
 
 To be able to send requests to the GNews API, you first must create an account to receive a token [here](https://gnews.io/register.php).
 
-## Query
+To be able to send requests to NewsApi, you first must create an account to receive a token [here](https://newsapi.org/).
+
+## Query Gnews API
 ```ruby
 # Establish parameters for query
 args = { "q" => "Dragon Ball Super", "country" => "MX", "mindate" => (DateTime.now - 2), 'max' => 1 }
@@ -98,6 +100,190 @@ MydvTAug0D-dSSDfZDG9oywTEcfQXsWXtzBHULFJzLYwJDjmnxza=-c"
 |  mindate 	    |  Optional (Date/DateTime)                 | Get articles that are more recent than the min date
 |  maxdate	    |  Optional (Date/DateTime)                 | Get articles that are less recent than the max date
 |  in 	        |  Optional 	                            | Get articles that contains q in the specified article section
+
+## Query NewsApi
+
+### Top Headlines
+Source: [NewsApi documentation.](https://www.newsapi.org/docs/endpoints)
+
+> Returns breaking news headlines for a country and category, or currently running on a single or multiple sources. This is perfect for use with news tickers or anywhere you want to display live up-to-date news headlines and images. 
+
+```ruby
+args = { "q" => "Brexit", "country" => "DE" }
+
+news = NewsApi::Query.new("my-secret-key")
+
+response = news.top_headlines(args)
+
+# =>
+```
+```json
+{  
+   "status":"ok",
+   "totalResults":1,
+   "articles":[  
+      {  
+         "source":{  
+            "id":null,
+            "name":"Faz.net"
+         },
+         "author":"Klaus-Dieter Frankenberger",
+         "title":"Brexit-Opfer - FAZ - Frankfurter Allgemeine Zeitung",
+         "description":"Das Brexit-Thema wurde May wie zuvor schon Cameron zum politischen Verhängnis  – und es ist eine Last, die auch die kommende Regierung nicht einfach abschütteln kann. Die EU allerdings auch nicht.",
+         "url":"https://www.faz.net/aktuell/brexit/theresa-may-ist-wie-david-cameron-zum-brexit-opfer-geworden-16204205.html",
+         "urlToImage":"https://media1.faz.net/ppmedia/aktuell/112808907/1.6204201/facebook_teaser/theresa-may-am-freitag-bei.jpg",
+         "publishedAt":"2019-05-24T11:07:00Z",
+         "content":"David Cameron führt die Liste der Brexit-Opfer an, und nun wird auch seine Nachfolgerin einen Platz darauf finden, zunächst, am 7. Juni, als Parteichefin der Konservativen, etwas später dann auch als Premierministerin. Cameron trat zurück, weil er seine Absti… [+2771 chars]"
+      }
+   ]
+}
+```
+
+#### Search Parameters for *Top Headlines*
+| Parameter 	| Info/Description                              | Additional Notes
+|---	         |---	                                          |---
+|  q	         |  Required                                     |Keywords or a phrase to search for.
+|  country     |  The 2-letter ISO 3166-1 code of the country  |You can't mix this param with the *sources* param.
+|  category    |  Options: *business, entertainment, general, health, science, sports, technology* |You can't mix this param with the *sources* param.
+|  sources     |  A comma-seperated string of identifiers for the news sources or blogs you want headlines from |You can't mix this param with the country or category params.
+|  pageSize	   |  The number of results to return per page (request). 20 is the default, 100 is the maximum. |
+|  page  	   |  Use this to page through the results if the total results found is greater than the page size. |     
+
+### Everything
+Source: [NewsApi documentation.](https://www.newsapi.org/docs/endpoints)
+
+
+> We index every recent news and blog article published by over 30,000 different sources large and small, and you can search through them with this endpoint. This endpoint is better suited for news analysis and article discovery, but can be used to retrieve articles for display too.
+
+```ruby
+args = { "q" => "Huawei", "from" => (DateTime.now - 2)}
+
+news = NewsApi::Query.new('my-secret-key')
+
+response = news.everything(args)
+
+# =>
+```
+
+```json
+{  
+   "status":"ok",
+   "totalResults":4599,
+   "articles":[  
+      {  
+         "source":{  
+            "id":"techcrunch",
+            "name":"TechCrunch"
+         },
+         "author":"Catherine Shu",
+         "title":"Semiconductor startup CNEX Labs alleged Huawei’s deputy chairman conspired to steal its intellectual property",
+         "description":"A San Jose-based semiconductor startup being sued by Huawei for stealing trade secrets has hit back in court documents, accusing the Chinese firm’s deputy chairman of conspiring to steal its intellectual property, reports the Wall Street Journal. In court fil…",
+         "url":"http://techcrunch.com/2019/05/22/semiconductor-startup-cnex-labs-alleged-huaweis-deputy-chairman-conspired-to-steal-its-intellectual-property/",
+         "urlToImage":"https://techcrunch.com/wp-content/uploads/2019/05/GettyImages-1150756100.jpg?w=600",
+         "publishedAt":"2019-05-23T06:01:44Z",
+         "content":"A San Jose-based semiconductor startup being sued by Huawei for stealing trade secrets has hit back in court documents, accusing the Chinese firms deputy chairman of conspiring to steal its intellectual property, reports the Wall Street Journal. In court fili… [+3077 chars]"
+      }
+      ...
+   ]
+}
+```
+#### Search Parameters for *Everything*
+| Parameter 	| Info/Description                              | Additional Notes
+|---	         |---	                                          |---
+|  q	         |Required                                       |Keywords or a phrase to search for.
+|  sources     |A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from.      |
+|  domains     |A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.      |
+|  excludeDomains|A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.   |
+|  from  	   |A date and optional time for the oldest article allowed. This should be in ISO 8601 format.                      |
+|  to      	   |A date and optional time for the newest article allowed. This should be in ISO 8601 format                       |     
+|  language	   |The 2-letter ISO-639-1 code of the language you want to get headlines for. Possible options: *ar de en es fr he it nl no pt ru se ud zh*. |Default: All languages returned 
+|  sortBy  	   |Options: *relevancy, popularity, publishedAt.*                                     |Default: publishedAt 
+|  pageSize	   |The number of results to return per page. 20 is the default, 100 is the maximum.   |     
+|  page  	   |Use this to page through the results.                                              |     
+
+
+
+### Sources
+Source: [NewsApi documentation.](https://www.newsapi.org/docs/endpoints)
+
+> Returns information (including name, description, and category) about the most notable sources we index. This list could be piped directly through to your users when showing them some of the options available.
+
+```ruby
+news = NewsApi::Query.new("my-secret-key")
+response = news.sources(args)
+
+# =>
+```
+
+
+```json
+{  
+   "status":"ok",
+   "sources":[  
+      {  
+         "id":"abc-news",
+         "name":"ABC News",
+         "description":"Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com.",
+         "url":"https://abcnews.go.com",
+         "category":"general",
+         "language":"en",
+         "country":"us"
+      },
+      {  
+         "id":"abc-news-au",
+         "name":"ABC News (AU)",
+         "description":"Australia's most trusted source of local, national and world news. Comprehensive, independent, in-depth analysis, the latest business, sport, weather and more.",
+         "url":"http://www.abc.net.au/news",
+         "category":"general",
+         "language":"en",
+         "country":"au"
+      },
+      ...
+   ]
+}
+
+```
+
+#### Search Parameters for *Sources*
+| Parameter 	| Info/Description                              
+|---	         |---	                                          
+|  country     |Find sources that display news in a specific country
+|  category    | Options: *business, entertainment, general, health, science, sports, technology* |
+|  language    |The 2-letter ISO-639-1 code of the language you want to get headlines for. Possible options: *ar de en es fr he it nl no pt ru se ud zh*
+
+## Format
+Additionaly, just like with the Gnews module, you may send a second parmeter to specify the format you may want to receive the response.
+
+Supported types: **json** and **hash**
+
+```ruby
+args = { "q" => "Brexit", "country" => "DE" }
+
+news = NewsApi::Query.new("my-secrety-key")
+
+response = news.top_headlines(args, 'hash')
+# =>
+{
+   "status"=>"ok", 
+   "totalResults"=>1, 
+   "articles"=>[
+      {
+         "source"=> {
+            "id"=>nil, 
+            "name"=>"Tagesschau.de"
+         }, 
+         "author"=>"tagesschau.de", 
+         "title"=>"Mays Rücktritt: \"Sie hätte Nationalheldin werden können\" - tagesschau.de", "description"=>"Premierministerin May wollte den Brexit mit aller Kraft. Doch nun hat sie überraschend emotional aufgegeben. Ihre möglichen Nachfolger bringen sich schon in Stellung. Von Imke Köhler.", 
+         "url"=>"https://www.tagesschau.de/ausland/may-ruecktritt-103.html", 
+         "urlToImage"=>"https://www.tagesschau.de/multimedia/bilder/may-741~_v-videowebm.jpg", 
+         "publishedAt"=>"2019-05-24T15:52:00Z", 
+         "content"=>"Premierministerin May wollte den Brexit mit aller Kraft. Doch nun hat sie überraschend emotional aufgegeben. Ihre möglichen Nachfolger bringen sich schon in Stellung. \r\nVon Imke Köhler, ARD-Studio London\r\n Theresa May hat selten Gefühle gezeigt in den vergang…"
+   ]
+}
+
+
+```
+
 
 ## Contributing
 
