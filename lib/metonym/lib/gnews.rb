@@ -12,7 +12,7 @@ module Gnews
 
         def search(args, format = 'json')
             begin
-                v = Gnews::Validate.new
+                v = Validate::GnewsValidator.new
                 raise "API Key is required"        if v.is_key_present?(@gnews_api_key) == false
                 raise "Invalid parameter sequence" if v.is_query_valid?(args)    == false
                 raise "Invalid country sent"       if v.is_country_valid?(args)  == false
