@@ -64,8 +64,8 @@ You can also send a second parmeter to the search method to indicate that the re
 args = { "q" => "Game of Thrones", "country" => "DE", 'max' => 1 }
 
 # Send Request with HASH response property
-gnews = Gnews::Query.new('my-secret-key', 'hash') 
-response = gnews.search(args)
+gnews = Gnews::Query.new('my-secret-key') 
+response = gnews.search(args, 'hash')
 
 puts response
 # =>
