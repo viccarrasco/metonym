@@ -3,31 +3,57 @@
 module Gnews
   class Query
     attr_accessor :gnews_api_key
-    attr_accessor :gnews_version
     attr_accessor :uri
 
     def initialize(key)
+      @gnews_api_key = key
       @gnews = Gnews::GnewsRepository.new(key)
     end
 
     def search(args, format:)
-      begin
-        v = Validate::GnewsQueryValidator.new(args: args, format: format)
-        raise v unless v
+      request('search', args: args, format: format)
+    end
 
-        response = @gnews.search(@gnews_api_key, query: args)
-      rescue Exception => e
-        response = { errors: e.to_s }
-      ensure
-        if response.is_a?(Hash) && response.has_key?('errors')
-          return response
-        else
-          if format.nil? || format == 'json'
-            return response.body
-          elsif format == 'hash'
-            return JSON.parse(response.body)
-          end
-        end
+    def top_news(args, format:)
+      request('top-news', args: args, format: format)
+    end
+
+    private
+
+    def request(resource, args:, format:)
+      validate_query_parameters(args, format)
+
+      case resource
+      when 'search'
+        response = @gnews.search(query: args)
+      when 'top-news'
+        response = @gnews.top_news(query: args)
+      when 'topics'
+        response = @gnews.topics(query: args)
+      end
+    rescue StandardError => e
+      response = { errors: e.to_s }
+    ensure
+      return generate_formatted_response(response, format)
+    end
+
+    def validate_query_parameters(args, format)
+      v = Validate::GnewsQueryValidator.new(@gnews_api_key, args: args, format: format)
+      raise v unless v
+    end
+
+    def generate_formatted_response(response, format)
+      return response if response.is_a?(Hash) && response.key?(:errors)
+
+      case format
+      when nil
+        response.body
+      when 'json'
+        response.body
+      when 'hash'
+        JSON.parse(response.body)
+      else
+        response.body
       end
     end
   end
