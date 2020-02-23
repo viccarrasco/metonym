@@ -34,27 +34,13 @@ module Gnews
     rescue StandardError => e
       response = { errors: e.to_s }
     ensure
-      return generate_formatted_response(response, format)
+      presenter = Gnews::GnewsResponsePresenter.new
+      return presenter.generate_formatted_response(response, format)
     end
 
     def validate_query_parameters(args, format)
       v = Validate::GnewsQueryValidator.new(@gnews_api_key, args: args, format: format)
       raise v unless v
-    end
-
-    def generate_formatted_response(response, format)
-      return response if response.is_a?(Hash) && response.key?(:errors)
-
-      case format
-      when nil
-        response.body
-      when 'json'
-        response.body
-      when 'hash'
-        JSON.parse(response.body)
-      else
-        response.body
-      end
     end
   end
 end
