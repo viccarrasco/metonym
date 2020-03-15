@@ -45,26 +45,25 @@ puts response
 ```
 
 ```json
-
 {
-    "status": "ok",
-    "totalResults": 1,
-    "articles": [
-        {
-            "source": {
-                "id": "die-zeit",
-                "name": "Die Zeit"
-            },
-            "author": "Bettina Schulz",
-            "title": "Covid-19: Massenisolation statt HerdenimmunitxC3xA4t - ZEIT ONLINE",
-            "description": "Die britische Regierung gibt ihre Strategie im Kampf gegen Covid-19 auf. Statt eine Erkrankung von Millionen Menschen in Kauf zu nehmen, setzt sie nun auf Isolation.",
-            "url": "https://www.zeit.de/politik/ausland/2020-03/covid-19-grossbritannien-herdenimmunitaet-virusbekaempfung",
-            "urlToImage": "https://img.zeit.de/politik/ausland/2020-03/covid-19-grossbritannien-herdenimmunitaet-virusbekaempfung-london/wide__1300x731",
-            "publishedAt": "2020-03-15T19:39:58Z",
-            "content": "InhaltrnAuf einer Seite lesenrn Inhaltrn<ol><li>Seite 1Massenisolation statt HerdenimmunitxC3xA4trn</li><li>Seite 2Das britische Gesundheitssystem ist fxC3xBCr ErnstfxC3xA4lle nicht gerxC3xBCstet</li></ol>rnNach deutlicher Kritik aus wissenschaftlichen Kreisen hat die britische xE2x80xA6 [+3845 chars]"
-        }
+  "status": "ok",
+  "totalResults": 1,
+  "articles": [
+    {
+      "source": {
+        "id": "die-zeit",
+        "name": "Die Zeit"
+      },
+      "author": "Bettina Schulz",
+      "title": "Covid-19: Massenisolation statt HerdenimmunitxC3xA4t - ZEIT ONLINE",
+      "description": "Die britische Regierung gibt ihre Strategie im Kampf gegen Covid-19 auf. Statt eine Erkrankung von Millionen Menschen in Kauf zu nehmen, setzt sie nun auf Isolation.",
+      "url": "https://www.zeit.de/politik/ausland/2020-03/covid-19-grossbritannien-herdenimmunitaet-virusbekaempfung",
+      "urlToImage": "https://img.zeit.de/politik/ausland/2020-03/covid-19-grossbritannien-herdenimmunitaet-virusbekaempfung-london/wide__1300x731",
+      "publishedAt": "2020-03-15T19:39:58Z",
+      "content": "InhaltrnAuf einer Seite lesenrn Inhaltrn<ol><li>Seite 1Massenisolation statt HerdenimmunitxC3xA4trn</li><li>Seite 2Das britische Gesundheitssystem ist fxC3xBCr ErnstfxC3xA4lle nicht gerxC3xBCstet</li></ol>rnNach deutlicher Kritik aus wissenschaftlichen Kreisen hat die britische xE2x80xA6 [+3845 chars]"
+    }
+  ]
 }
-
 ```
 
 ## Query Gnews API
