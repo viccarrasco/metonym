@@ -4,6 +4,13 @@
 
 A ruby gem for [GNews API](https://gnews.io) and [NewsApi](https://newsapi.org/)
 
+## Important
+
+I've decided to revive this project based on the fact that misinformation is a huge problem when facing a world threat. Covid-19 is an unprecedented thread that is
+affecting the world.
+
+[Please take some time to contribute](https://www.endcoronavirus.org/)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,8 +34,6 @@ To be able to send requests to the GNews API, you first must create an account t
 To be able to send requests to NewsApi, you first must create an account to receive a token [here](https://newsapi.org/).
 
 ## COVID-19
-
-[Please take some time to contribute](https://www.endcoronavirus.org/)
 
 ```ruby
 # Establish parameters for query
