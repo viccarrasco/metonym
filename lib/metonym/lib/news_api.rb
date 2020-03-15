@@ -10,19 +10,23 @@ module NewsApi
       @news_api = NewsApi::NewsApiRepository.new(key)
     end
 
-    def everything(args, format:)
-      request('everything', args: args, format: format)
+    def everything(args, **options)
+      request('everything', args: args, format: define_response_format(options))
     end
 
-    def top_headlines(args, format:)
-      request('top-headlines', args: args, format: format)
+    def top_headlines(args, **options)
+      request('top-headlines', args: args, format: define_response_format(options))
     end
 
-    def sources(args, format:)
-      request('sources', args: args, format: format)
+    def sources(args, **options)
+      request('sources', args: args, format: define_response_format(options))
     end
 
     private
+
+    def define_response_format(options)
+      options[:format] || 'json'
+    end
 
     def request(resource, args:, format:)
       validate_query_parameters(args, format, resource)
