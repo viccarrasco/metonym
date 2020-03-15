@@ -10,15 +10,19 @@ module Gnews
       @gnews = Gnews::GnewsRepository.new(key)
     end
 
-    def search(args, format:)
-      request('search', args: args, format: format)
+    def search(args, **options)
+      request('search', args: args, format: define_response_format(options))
     end
 
-    def top_news(args, format:)
-      request('top-news', args: args, format: format)
+    def top_news(args, **options)
+      request('top-news', args: args, format: define_response_format(options))
     end
 
     private
+
+    def define_response_format(options)
+      options[:format] || 'json'
+    end
 
     def request(resource, args:, format:)
       validate_query_parameters(args, format)
