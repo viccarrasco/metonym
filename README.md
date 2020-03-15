@@ -32,7 +32,7 @@ To be able to send requests to NewsApi, you first must create an account to rece
 
 ```ruby
 # Establish parameters for query
-args = { q: 'Covid-19', country: 'DE', mindate: (DateTime.now - 2), max: 10 }
+args = { q: 'Covid-19', country: 'DE', mindate: (DateTime.now - 2), max: 1 }
 
 # Send Request
 gnews = Gnews::Query.new('my-secret-key')
@@ -48,7 +48,7 @@ puts response
 
 {
     "status": "ok",
-    "totalResults": 10,
+    "totalResults": 1,
     "articles": [
         {
             "source": {
@@ -62,10 +62,8 @@ puts response
             "urlToImage": "https://img.zeit.de/politik/ausland/2020-03/covid-19-grossbritannien-herdenimmunitaet-virusbekaempfung-london/wide__1300x731",
             "publishedAt": "2020-03-15T19:39:58Z",
             "content": "InhaltrnAuf einer Seite lesenrn Inhaltrn<ol><li>Seite 1Massenisolation statt HerdenimmunitxC3xA4trn</li><li>Seite 2Das britische Gesundheitssystem ist fxC3xBCr ErnstfxC3xA4lle nicht gerxC3xBCstet</li></ol>rnNach deutlicher Kritik aus wissenschaftlichen Kreisen hat die britische xE2x80xA6 [+3845 chars]"
-        },
-        ...
+        }
 }
-
 
 ```
 
