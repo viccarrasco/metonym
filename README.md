@@ -20,8 +20,6 @@ Or install it yourself as:
 
     $ gem install metonym
 
-[Please read here!]()
-
 ## Typical Usage
 
 To be able to send requests to the GNews API, you first must create an account to receive a token [here](https://gnews.io/register.php).
