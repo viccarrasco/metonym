@@ -1,49 +1,47 @@
+# frozen_string_literal: true
+
 module Gnews
-    class Query
-        attr_accessor :gnews_api_key
-        attr_accessor :gnews_version
-        attr_accessor :uri
+  class Query
+    attr_accessor :gnews_api_key
+    attr_accessor :uri
 
-        def initialize(key, version = nil)
-            @gnews_api_key = key
-            @gnews_version = version.nil? ? 'v2' : version
-            @uri = URI("https://gnews.io/api/#{@gnews_version}/")
-        end
-
-        def search(args, format = 'json')
-            begin
-                v = Validate::GnewsValidator.new
-                raise "API Key is required"        if v.is_key_present?(@gnews_api_key) == false
-                raise "Invalid parameter sequence" if v.is_query_valid?(args)    == false
-                raise "Invalid country sent"       if v.is_country_valid?(args)  == false
-                raise "Invalid language sent"      if v.is_language_valid?(args) == false
-                raise "Invalid date or dates sent" if v.is_date_valid?(args)     == false
-                raise "Invalid format sent"        if v.is_format_valid?(format) == false
-
-                args = prepare_arguments(args)
-                @uri.query = URI.encode_www_form(args)
-                response = Net::HTTP.get_response(@uri)
-            rescue Exception => e
-                response = {"errors" => e.to_s}
-            ensure
-                if response.is_a?(Hash) && response.has_key?('errors')
-                    return response
-                else
-                    if format.nil? || format == 'json'
-                        return response.body
-                    elsif format == 'hash'
-                        return JSON.parse(response.body)
-                    end
-                end
-            end
-        end
-
-        private
-        def prepare_arguments(args)
-            args['mindate'] = args.has_key?('mindate') ? args['mindate'].strftime("%y-%m-%d") : nil
-            args['maxdate'] = args.has_key?('maxdate') ? args['maxdate'].strftime("%y-%m-%d") : nil
-            args["token"] = @gnews_api_key
-            args
-        end
+    def initialize(key)
+      @gnews_api_key = key
+      @gnews = Gnews::GnewsRepository.new(key)
     end
+
+    def search(args, format:)
+      request('search', args: args, format: format)
+    end
+
+    def top_news(args, format:)
+      request('top-news', args: args, format: format)
+    end
+
+    private
+
+    def request(resource, args:, format:)
+      validate_query_parameters(args, format)
+
+      case resource
+      when 'search'
+        response = @gnews.search(query: args)
+      when 'top-news'
+        response = @gnews.top_news(query: args)
+      when 'topics'
+        response = @gnews.topics(query: args)
+      end
+    rescue StandardError => e
+      response = { errors: e.to_s }
+    ensure
+      presenter = Gnews::GnewsResponsePresenter.new
+      return presenter.generate_formatted_response(response, format)
+    end
+
+    def validate_query_parameters(args, format)
+      v = Validate::GnewsQueryValidator.new(@gnews_api_key,
+                                            args: args, format: format)
+      raise v unless v
+    end
+  end
 end
