@@ -28,6 +28,8 @@ To be able to send requests to NewsApi, you first must create an account to rece
 
 ## COVID-19
 
+[Please take some time to contribute](https://www.endcoronavirus.org/)
+
 ```ruby
 # Establish parameters for query
 args = { q: 'Covid-19', country: 'DE', mindate: (DateTime.now - 2), max: 1 }
