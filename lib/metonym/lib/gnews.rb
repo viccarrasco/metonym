@@ -39,7 +39,8 @@ module Gnews
     end
 
     def validate_query_parameters(args, format)
-      v = Validate::GnewsQueryValidator.new(@gnews_api_key, args: args, format: format)
+      v = Validate::GnewsQueryValidator.new(@gnews_api_key,
+                                            args: args, format: format)
       raise v unless v
     end
   end

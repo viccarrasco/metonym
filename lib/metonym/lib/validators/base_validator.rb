@@ -4,11 +4,11 @@ module Validate
   class BaseValidator
     protected
 
-    def is_key_present?(args)
+    def key_present?(args)
       !args.nil?
     end
 
-    def is_language_valid?(args)
+    def language_valid?(args)
       return true if args[:lang].nil?
 
       [

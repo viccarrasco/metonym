@@ -18,29 +18,29 @@ module Validate
     ].freeze
 
     def initialize(api_key, args:, format:)
-      raise 'API Key is required'        unless is_key_present?(api_key)
-      raise 'Invalid parameter sequence' unless is_query_valid?(args)
-      raise 'Invalid country sent'       unless is_country_valid?(args)
-      raise 'Invalid language sent'      unless is_language_valid?(args)
-      raise 'Invalid date or dates sent' unless is_date_valid?(args)
+      raise 'API Key is required'        unless key_present?(api_key)
+      raise 'Invalid parameter sequence' unless query_valid?(args)
+      raise 'Invalid country sent'       unless country_valid?(args)
+      raise 'Invalid language sent'      unless language_valid?(args)
+      raise 'Invalid date or dates sent' unless date_valid?(args)
 
       true
     end
 
     private
 
-    def is_query_valid?(args)
+    def query_valid?(args)
       search_template   = %i[q max lang country mindate maxdate in]
       top_news_template = %i[lang country max image]
       template = search_template + top_news_template
       (args.keys - template).empty?
     end
 
-    def is_country_valid?(args)
+    def country_valid?(args)
       args[:country].nil? ? true : COUNTRIES.include?(args[:country].downcase)
     end
 
-    def is_date_valid?(args)
+    def date_valid?(args)
       if args[:mindate].nil? && args[:maxdate].nil?
         true
       elsif args[:mindate] && args[:maxdate]

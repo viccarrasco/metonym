@@ -6,23 +6,24 @@ module Validate
     CATEGORIES  = %w[business entertainment general health science sports technology].freeze
 
     def initialize(api_key, args:, format:, endpoint: nil)
-      raise 'API Key is required'        unless is_key_present?(api_key)
-      raise 'Invalid parameter sequence' unless is_query_valid?(args, endpoint)
-      raise 'Invalid country sent'       unless is_country_valid?(args)
-      raise 'Invalid language sent'      unless is_language_valid?(args)
-      raise 'Invalid date or dates sent' unless is_date_valid?(args)
+      raise 'API Key is required'        unless key_present?(api_key)
+      raise 'Invalid parameter sequence' unless query_valid?(args, endpoint)
+      raise 'Invalid country sent'       unless country_valid?(args)
+      raise 'Invalid language sent'      unless language_valid?(args)
+      raise 'Invalid date or dates sent' unless date_valid?(args)
 
       true
     end
 
     private
 
-    def is_query_valid?(args, endpoint = 'top-headlines')
+    def query_valid?(args, endpoint = 'top-headlines')
       case endpoint
       when 'top-headlines'
         template = %i[q country category sources page_size page]
       when 'everything'
-        template = %i[q sources domains excludeDomains from to language sortBy pageSize page]
+        template = %i[q sources domains excludeDomains
+                      from to language sortBy pageSize page]
       when 'sources'
         template = %i[category language country]
       end
@@ -36,16 +37,16 @@ module Validate
       end
     end
 
-    def is_country_valid?(args)
+    def country_valid?(args)
       args[:country].nil? ? true : COUNTRIES.include?(args[:country].downcase)
     end
 
-    def is_category_valid?(args)
+    def category_valid?(args)
       template = %w[business entertainment general health science sports technology]
       template.include?(args[:country])
     end
 
-    def is_date_valid?(args)
+    def date_valid?(args)
       if args[:from].nil? && args[:to].nil?
         true
       elsif args[:from] && args[:to]
